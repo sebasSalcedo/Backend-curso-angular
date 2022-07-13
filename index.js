@@ -26,6 +26,12 @@ dbConnection();
 
 app.use( '/api/usuarios', require('./routes/usuarios') );
 app.use( '/api/login', require('./routes/auth') );
+app.use( '/api/hospital', require('./routes/hospitales') );
+app.use( '/api/medico', require('./routes/medicos') );
+app.use( '/api/global', require('./routes/globales') );
+
+
+
 
 
 

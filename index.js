@@ -14,6 +14,10 @@ const app = express();
 
 app.use(cors()); 
 
+//carpeta public
+
+app.use( express.static('public') );
+
 // Lectura y parseo del body
 
 app.use( express.json() );

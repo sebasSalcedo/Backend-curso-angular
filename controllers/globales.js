@@ -149,7 +149,7 @@ const viewFileImg = async  (req, res = response) => {
   const { tipo, id } = req.params;
   let pathImg  = path.join( __dirname + `../../uploads/${ tipo }/${ id }`);
 
-console.log(fs.existsSync(pathImg));
+
  
   if(!fs.existsSync(pathImg)){
    pathImg  = path.join( __dirname + `../../uploads/img/notFound.jpg`);

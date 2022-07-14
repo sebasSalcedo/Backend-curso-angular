@@ -121,7 +121,7 @@ const eliminarUsuario = async ( req, res  = response ) => {
 
     const usuarioDB = await Usuario.findById( _id );
 
-    console.log(usuarioDB);
+    
 
     if (!usuarioDB) {
       return res.status(404).json({

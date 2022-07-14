@@ -54,25 +54,86 @@ const crearMedico = async ( req, res = response) =>{
 }
 
 
-const actualizarMedico = ( req, res = response) =>{
+const actualizarMedico = async ( req, res = response) =>{
 
-    res.json({
+    const id = req.params.id;
+    const user = req._id;
+  
 
+    try {
+    const medico = await Medico.findById(id);
+
+    if (!medico) {
+        return res.status(500).json({
+          ok: false,
+          msg: "Medico no encontrado",
+        });
+      }
+
+      const cambiosMedico = {
+        ...req.body,
+        usuario: user,
+      };
+
+
+      const medicoActualizado = await Medico.findByIdAndUpdate(
+        id,
+        cambiosMedico,
+        { new: true }
+      );
+  
+      return res.status(200).json({
         ok: true,
-        msg:'actualizarMedico'
+        msg: "Hospital actualizado",
+        medicoActualizado,
+      });
+        
+    } catch (error) {
+        console.log(error);
 
-    })
+    return res.status(500).json({
+      ok: false,
+      msg: "Hable con el administrador",
+    });
+    }
+
+
 
 }
 
-const borrarMedico = ( req, res = response) =>{
+const borrarMedico = async ( req, res = response) =>{
 
-    res.json({
+    const id = req.params.id;
+    
+    try {
+    const medicoDB = await Medico.findById(id);
 
+    if (!medicoDB) {
+        return res.status(404).json({
+          ok: false,
+          msg: "No se encontro un registro con ese id",
+        });
+      }
+
+      const eliminarMedico = await Medico.findByIdAndDelete( id );
+
+      return res.status(200).json({
         ok: true,
-        msg:'borrarHospital'
+        msg: "Medico eliminado",
+        eliminarMedico
+      });
 
-    })
+        
+    } catch (error) {
+        console.log(error);
+
+        return res.status(500).json({
+          ok: false,
+          msg: "Error inesperado",
+        });
+    }
+
+
 
 }
 

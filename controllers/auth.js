@@ -94,7 +94,24 @@ const loginGoogle = async (req, res = response) => {
   }
 };
 
+const renewToken = async (req, res = response) => {
+
+  const id = req._id;
+  const token = await generarJWT( id );
+
+
+  res.json({
+
+    ok:true,
+    id,
+    token
+
+  })
+
+}
+
 module.exports = {
   login,
   loginGoogle,
+  renewToken,
 };

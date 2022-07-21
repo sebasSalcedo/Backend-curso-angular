@@ -52,6 +52,8 @@ const login = async (req, res = response) => {
 };
 
 const loginGoogle = async (req, res = response) => {
+  console.log(req.body.token);
+
   try {
     const { email, name, picture } = await googleVerify(req.body.token);
 
@@ -73,7 +75,6 @@ const loginGoogle = async (req, res = response) => {
     }
 
     // Guardar usuario
-
     await usuario.save();
 
     // Generar el Token -jwt
@@ -81,7 +82,7 @@ const loginGoogle = async (req, res = response) => {
     const token = await generarJWT(usuario.id);
 
     res.status(200).json({
-      ok: false,
+      ok: true,
       usuario,
       token,
     });
@@ -95,20 +96,23 @@ const loginGoogle = async (req, res = response) => {
 };
 
 const renewToken = async (req, res = response) => {
-
-  const id = req._id;
-  const token = await generarJWT( id );
-
+  const _id = req._id;
+  const token = await generarJWT(_id);
+  const { id, nombre, email, rol, google, img } = await Usuario.findById({
+    _id,
+  });
 
   res.json({
-
-    ok:true,
+    ok: true,
     id,
-    token
-
-  })
-
-}
+    nombre,
+    email,
+    rol,
+    google,
+    img,
+    token,
+  });
+};
 
 module.exports = {
   login,
